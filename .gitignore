@@ -1,0 +1,43 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env
+
+# Editor configs
+.vscode/
+*.code-workspace
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs and tem files
+*.log
+*.tmp
+*.bak
+
+# Debug and test files
+to_copy.py
+test.py
+
+# YT Downloader files
+*.webm
+*.m4a
+*.mp4
+*.part
+
+# Python misc
+*.db
+*.sqlite3
+
+# Local config
+.env
+config.py
+
+# Backup files
+.git_backup
