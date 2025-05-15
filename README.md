@@ -1,10 +1,32 @@
 # Manuel - A Discord Basic Bot (MVP)
 
-Manuel is a modular Discord bot focused on music playback via YouTube links or search queries. Built with `discord.py` using modern Slash Commands (`app_commands`), it provides basic song request functionality in voice channels, with per-server queues and admin permission handling.
+**Manuel** is a custom Discord bot designed for lightweight moderation, text-based interactions, and eventually music control. It now features a structured permissions system and full logging, aiming to grow into a modular assistant for community servers.
+
+> “Easy there, Manuel’s still alive...”  
+> — you, after a `/song_request`
 
 ---
+## Features Implemented in This Sprint
 
-##  Current Features (Sprint 1)
+### 🔐 Custom Role-Based Permission System
+You can now assign specific server roles as `admin` or `user`, stored persistently using **SQLite**:
+
+- `/set_admin <role>`: define a role as admin.
+- `/set_user <role>`: define a role as user.
+- Permission levels are enforced using decorators: `@is_owner`, `@is_admin`, and `@is_user`.
+- Only one role per type (admin/user) is active per guild.
+- Built-in **autocomplete** for role names in slash commands.
+
+
+### 📝 Structured Logging System
+Every command and error is logged in real time, following a clean format:
+
+```text
+2025-05-15 11:03:04,123 - __main__ - INFO - {message}
+2025-05-15 11:03:04,456 - __main__ - ERROR - {error}
+```
+
+##  Previous Features
 
 ### 🎵 Music Commands
 - `/play [query_or_link]` — Plays a YouTube link or searches and plays a song.
@@ -23,25 +45,30 @@ Manuel is a modular Discord bot focused on music playback via YouTube links or s
 
 ## 🗂️ Project Structure
 ```
-discord_bot/
-│
-├── cogs/
-│ ├── music.py # All music-related slash commands
-│ └── admin_tools.py # Shutdown and admin-only logic
-│
-├── utils/
-│ ├── yt_downloader.py # YouTube audio download logic
-│ └── utils.py # Shared helpers
-│
-├── data/ # Runtime cache and logs (ignored by Git)
-│
-├── temp/song_request/ # Temporary song files (ignored by Git)
-│
-├── manuel.py # Bot entrypoint
-├── config.py # Configuration loader (token, secrets)
-├── test.py # Dev test runner
-├── requirements.txt # Dependencies
-└── .env # Environment variables (not committed)
+├── assets/ # Static assets (empty or not shown)
+├── cogs/ # Bot command modules
+│ ├── admin_tools.py
+│ ├── music.py
+│ └── role_manager.py
+├── data/ # Placeholder or future data storage
+├── db/ # SQLite database and DB logic
+│ ├── manuel_roles.db
+│ └── role_db.py
+├── logs/ # Log output folder
+├── temp/ # Temporary data
+├── utils/ # Utility modules
+│ ├── permissions.py
+│ ├── utils.py
+│ └── yt_downloader.py
+├── venv/ # Virtual environment (excluded via .gitignore)
+├── .env # Environment variables
+├── .gitignore
+├── config.py # Configuration logic
+├── license.txt
+├── logging_config.py # Logging setup (file handlers, formats)
+├── manuel.py # Main bot entrypoint
+├── README.md
+└── requirements.txt
 ```
 
 ## 📦 Setup Instructions
@@ -83,8 +110,6 @@ Persistent queue between restarts
 Spotify search and integration
 
 Web dashboard for managing songs and analytics
-
-Roles system
 
 XP system
 

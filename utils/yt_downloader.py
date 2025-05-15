@@ -7,7 +7,9 @@ TEMP_FOLDER = 'temp/song_request'
 os.makedirs(TEMP_FOLDER, exist_ok = True)
 
 def download_youtube_audio(url: str) -> str:
-    '''Download Youtube Audio and returns path'''
+    '''
+    Download Youtube Audio and returns path
+    '''
     unique_id = str(uuid.uuid4())
     output_path = os.path.join(TEMP_FOLDER, f'{unique_id}.%(ext)s')
 
@@ -29,6 +31,8 @@ def download_youtube_audio(url: str) -> str:
         return mp3_filename
     
 def cleanup(filepath: str):
-    '''Removes existing mp3'''
+    '''
+    Removes existing mp3
+    '''
     if os.path.exists(filepath):
         os.remove(filepath)

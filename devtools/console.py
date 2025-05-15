@@ -16,3 +16,6 @@ def start_terminal(bot_instance, music_instance):
     banner = 'Terminal!'
 
     embed(user_ns = namespace, banner1 = banner)
+
+
+    ####### DEVELOPING ###########

@@ -24,6 +24,7 @@ Thumbs.db
 # Debug and test files
 to_copy.py
 test.py
+.devtools/
 
 # YT Downloader files
 *.webm
