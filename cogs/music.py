@@ -11,7 +11,7 @@ from discord.ext import commands
 from discord import app_commands
 
 import utils.permissions as up
-from utils.utils import clear_temp_folder
+from utils.backend_utils import clear_temp_folder
 from utils.yt_downloader import download_youtube_audio, cleanup
 
 
@@ -100,7 +100,9 @@ class Music(commands.Cog):
     @app_commands.describe(url = 'Link from Youtube Video')
     @up.is_user()
     async def song_request(self, interaction: discord.Interaction, url: str):
-        '''Handles song requests from users in voice channels.'''
+        '''
+        Handles song requests from users in voice channels.
+        '''
         if interaction.user.voice is None or interaction.user.voice.channel is None:
             await interaction.response.send_message('This only works on voice channels.', ephemeral = True)
             return

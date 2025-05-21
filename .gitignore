@@ -42,3 +42,6 @@ config.py
 
 # Backup files
 .git_backup
+
+# Local
+roadmap.md

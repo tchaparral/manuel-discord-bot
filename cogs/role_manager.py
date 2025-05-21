@@ -8,8 +8,8 @@ from discord.app_commands import Transformer, Choice
 from discord import app_commands, Interaction, Role, Guild
 from discord.ext import commands
 
-from db import role_db
-from logging_config import get_logger
+from db import RoleDB
+from logs import get_logger
 import utils.permissions as up
 
 logger = get_logger(__name__)
@@ -47,7 +47,6 @@ class RoleManager(commands.Cog):
         Initialize the RoleManager with bot reference and database setup.
         '''
         self.bot = bot
-        role_db.init_db()
     
     # commands    
     @app_commands.command(name = 'role_list', description = 'List roles from server')
@@ -71,11 +70,11 @@ class RoleManager(commands.Cog):
         '''
         Set a role as admin role in the Manuel's permission system.
         '''
-        role_db.db_set_role(interaction.guild.id, 'admin', role.id)
+        RoleDB.db_set_role(interaction.guild.id, 'admin', role.id, role.name)
         logger.info(f'{role.name}[Discord role] is now admin on Manuel. By: {interaction.user.name}')
         await interaction.response.send_message(f'{role.name} is now admin on Manuel')
 
-    @app_commands.command(name = 'set_user', description = 'Set a discord role into admin on Manuel')
+    @app_commands.command(name = 'set_user', description = 'Set a discord role into user on Manuel')
     @app_commands.describe(role = 'Choose server role to admin role at Manuel')
     @up.is_owner()
     async def set_user(
@@ -86,13 +85,13 @@ class RoleManager(commands.Cog):
         '''
         Set a role as user role in the Manuel's permission system.
         '''
-        role_db.db_set_role(interaction.guild.id, 'user', role.id)
+        RoleDB.db_set_role(interaction.guild.id, 'user', role.id, role.name)
         logger.info(f'{role.name}[Discord role] is now user on Manuel. By: {interaction.user.name}')
         await interaction.response.send_message(f'{role.name} is now user on Manuel')
 
 async def setup(bot: commands.Bot):
     '''
-    "Add the RoleManager cog to the bot.
+    Add the RoleManager cog to the bot.
     '''
     await bot.add_cog(RoleManager(bot))
 

@@ -5,11 +5,12 @@ This module provides permission checking decorators for Manuel commands.
 '''
 import functools
 
+import discord
 from discord import Interaction
-from discord.app_commands import CheckFailure, check
+from discord.app_commands import CheckFailure, AppCommandError, check
 
 from config import OWNER_ID
-from db import role_db
+from db import RoleDB
 
 # Exceptions
 class NotOWner(CheckFailure):
@@ -31,7 +32,7 @@ class NotUser(CheckFailure):
     pass
 
 
-# Owner check -> Local ID
+# Bot owner check -> Local ID
 def is_owner():
     '''
     Decorator to verify command invoker is the bot owner.
@@ -48,9 +49,6 @@ def is_owner():
     return decorator
 
 # Admin check
-
-
-# Admin check
 def is_admin():
     '''
     Decorator to verify command invoker is an admin.
@@ -61,7 +59,7 @@ def is_admin():
             if interaction.user.id == OWNER_ID: # Local ID check
                 return await func(self, interaction, *args, **kwargs)
             
-            role_id = role_db.db_get_role(interaction.guild.id, 'admin')
+            role_id = RoleDB.db_get_role(interaction.guild.id, 'admin')
             if role_id and any(role.id == role_id for role in interaction.user.roles):
                 return await func(self, interaction, *args, **kwargs)
             
@@ -70,7 +68,7 @@ def is_admin():
     return decorator
 
 
-# User check -> everyone pass - maybe in the future registration or rule acceptance
+# User check -> everyone pass - maybe in the future registration or rules acceptance
 def is_user():
     '''
     Decorator placeholder for future user verification.
@@ -83,10 +81,12 @@ def is_user():
             if interaction.user.id == OWNER_ID: # Local ID check
                 return await func(self, interaction, *args, **kwargs)
             
-            role_id = role_db.db_get_role(interaction.guild.id, 'admin')
+            role_id = RoleDB.db_get_role(interaction.guild.id, 'admin')
             if role_id and any(role.id == role_id for role in interaction.user.roles):
                 return await func(self, interaction, *args, **kwargs)            
 
             return await func(self, interaction, *args, **kwargs)
         return wrapper
     return decorator
+
+

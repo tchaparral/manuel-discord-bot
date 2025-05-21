@@ -1,12 +1,12 @@
-# Manuel - A Discord Basic Bot (MVP)
+# Manuel - A Discord Basic Bot 🤖
 
-**Manuel** is a custom Discord bot designed for lightweight moderation, text-based interactions, and eventually music control. It now features a structured permissions system and full logging, aiming to grow into a modular assistant for community servers.
+**Manuel** is a Discord bot built with [discord.py](https://discordpy.readthedocs.io/), designed to enhance community management with utility commands, customizable welcome messages, and event logging.
 
 > “Easy there, Manuel’s still alive...”  
 > — you, after a `/song_request`
 
 ---
-## Features Implemented in This Sprint
+## Features
 
 ### 🔐 Custom Role-Based Permission System
 You can now assign specific server roles as `admin` or `user`, stored persistently using **SQLite**:
@@ -26,7 +26,8 @@ Every command and error is logged in real time, following a clean format:
 2025-05-15 11:03:04,456 - __main__ - ERROR - {error}
 ```
 
-##  Previous Features
+- `on_member_join` – 
+  - Logs whenever a new member joins the server.
 
 ### 🎵 Music Commands
 - `/play [query_or_link]` — Plays a YouTube link or searches and plays a song.
@@ -38,38 +39,25 @@ Every command and error is logged in real time, following a clean format:
 - **Checks if user is in a voice channel**
 - **Simple feedback via interaction messages**
 
-### 👑 Admin Commands
-- `/shutdown` — Shuts down the bot (owner-only).
-- Console logging for basic actions.
-- Owner-only decorator check.
+### 🛡️ Admin Tools
+- `/shutdown` – Shuts down the bot. Only available to authorized users.
+- `/kick` – Kicks a member from the server.
+- `/ban` – Bans a member from the server.
+- `/mute` – Mutes a member by assigning a mute role (you must configure a "Muted" role).
+- `/unmute` – Unmutes a previously muted member.
+- `/purge` – Deletes a specified number of messages from a channel (bulk delete).
 
-## 🗂️ Project Structure
-```
-├── assets/ # Static assets (empty or not shown)
-├── cogs/ # Bot command modules
-│ ├── admin_tools.py
-│ ├── music.py
-│ └── role_manager.py
-├── data/ # Placeholder or future data storage
-├── db/ # SQLite database and DB logic
-│ ├── manuel_roles.db
-│ └── role_db.py
-├── logs/ # Log output folder
-├── temp/ # Temporary data
-├── utils/ # Utility modules
-│ ├── permissions.py
-│ ├── utils.py
-│ └── yt_downloader.py
-├── venv/ # Virtual environment (excluded via .gitignore)
-├── .env # Environment variables
-├── .gitignore
-├── config.py # Configuration logic
-├── license.txt
-├── logging_config.py # Logging setup (file handlers, formats)
-├── manuel.py # Main bot entrypoint
-├── README.md
-└── requirements.txt
-```
+
+### 🔧 Server Info & Config
+
+- `/userinfo` – Displays detailed information about a server member.
+- `/serverinfo` – Shows general information about the current server.
+- `/say` – The bot repeats the provided message.
+- `/preview_welcome` – Shows a preview of the currently configured welcome message.
+- `/set_welcome_channel` – Sets the channel where welcome messages are sent.
+- `/set_welcome_message` – Sets the welcome message content. Supports placeholders like `{user}` and `{server}`.
+- `/toggle_welcome` – Enables or disables welcome messages.
+
 
 ## 📦 Setup Instructions
 
@@ -95,25 +83,6 @@ DISCORD_TOKEN=your_bot_token_here
 ```
 python manuel.py
 ```
-
-## 🧭 Roadmap (Future Sprints)
-/queue — View the current queue
-
-/nowplaying — Display currently playing song
-
-/remove — Remove a song from the queue
-
-Auto-disconnect if voice channel is empty
-
-Persistent queue between restarts
-
-Spotify search and integration
-
-Web dashboard for managing songs and analytics
-
-XP system
-
-Sky is limit...
 
 ## 👤 Author
 Created by Thiago Correali <br>

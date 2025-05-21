@@ -9,9 +9,11 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
+from logs import get_logger
 from config import OWNER_ID
 import utils.permissions as up
 
+logger = get_logger(__name__)
 
 class AdminTools(commands.Cog):
     '''
@@ -30,6 +32,7 @@ class AdminTools(commands.Cog):
         '''
         Shut down the bot (Owner only)
         '''
+        logger.info(f'Manuel shuted down by {interaction.user.name}')
         await interaction.response.send_message('Shutting Manuel down =/')
         await self.bot.close()
 
@@ -43,6 +46,8 @@ class AdminTools(commands.Cog):
         '''        
         await member.kick(reason = motivo)
         await interaction.response.send_message(f'{member.mention} was kicked by {interaction.user.mention}. Reason: {motivo}')
+        logger.info(f'{member.mention} was kicked by {interaction.user.mention}. Reason: {motivo}')
+
 
     # Mute (timeout) member    
     @app_commands.command(name = 'mute', description = 'Timeout a member for determined time')
@@ -55,6 +60,7 @@ class AdminTools(commands.Cog):
         duration = timedelta(minutes = minutos)
         await member.timeout(duration, reason = motivo)
         await interaction.response.send_message(f'{member.mention} was muted for {minutos} minutes by {interaction.user.mention}. Reason: {motivo}')
+        logger.info(f'{member.name} was muted for {minutos} minutes by {interaction.user.name}. Reason: {motivo}')
 
     # Unmute (remove timout) member
     @app_commands.command(name = 'unmute', description = 'Unmute (remove timout) user')
@@ -66,7 +72,8 @@ class AdminTools(commands.Cog):
         '''
         duration = None
         await member.timeout(duration)
-        await interaction.response.send_message(f'{member.mention} was unmuted.')
+        await interaction.response.send_message(f'{member.mention} was unmuted by {member.mention}.')
+        logger.info(f'{member.name} was unmuted.')
 
     # Purge chat messages
     @app_commands.command(name = 'limpar', description = 'Purge chat messages (100 max)')
@@ -94,6 +101,7 @@ class AdminTools(commands.Cog):
         '''
         await member.ban(reason = motivo)
         await interaction.response.send_message(f'{member} was banned banned by {interaction.user.mention}. Reason: {motivo}.')
+        logger.info(f'{member} was banned banned by {interaction.user.name}. Reason: {motivo}.')
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminTools(bot))

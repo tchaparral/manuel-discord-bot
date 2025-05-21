@@ -1,10 +1,17 @@
+'''
+Discord Bot Main File - Manuel Bot
+
+This is the main entry point for Manuel, a Discord bot with multiple functionalities.
+'''
 import asyncio
 
 import discord
 from discord.ext import commands
 
 from config import TOKEN, PREFIX
-from logging_config import get_logger
+import db
+import db.init
+from logs import get_logger
 import utils.permissions as up
 
 logger = get_logger(__name__)
@@ -19,6 +26,8 @@ async def main():
     await bot.load_extension('cogs.admin_tools')
     await bot.load_extension('cogs.music')
     await bot.load_extension('cogs.role_manager')
+    await bot.load_extension('cogs.welcome')
+    await bot.load_extension('cogs.utils')
     await bot.start(TOKEN)
 
 @bot.event
@@ -29,11 +38,20 @@ async def on_ready():
     logger.info(f'Manuel started as {bot}')
     print('Manuel is online. Check log file to interactions.')
 
+    # load slash commands
     try:
         synced = await bot.tree.sync()
         logger.info(f'Syncing {len(synced)} (/) commands')
     except Exception as e:
         logger.error(f'Error on syncing slash commands: {e}')
+    
+    # check and prepare databases
+    try:
+        db.init.init_all_tables()
+        logger.info(f'All database table schemas ready')
+    except Exception as e:
+        logger.error(f'Database error: {e}')
+
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
